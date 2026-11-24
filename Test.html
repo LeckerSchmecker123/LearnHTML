@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <!-- Zeichensatz, mobile Darstellung und kurze Beschreibung für Suchmaschinen. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Alles über den Volkswagen Golf III: Geschichte, Motoren, Modellvarianten und seine Bedeutung.">
+  <title>Volkswagen Golf III – Eine Legende auf vier Rädern</title>
+  <style>
+    /*
+      Das CSS steht im Style-Bereich direkt in dieser HTML-Datei.
+      Die Werte mit -- am Anfang sind Variablen: So kann man Farben und Schriften
+      zentral ändern, statt denselben Wert an vielen Stellen anzupassen.
+    */
+    :root {
+      color-scheme: light;
+      --ink: #17231d;
+      --muted: #647168;
+      --green: #245c40;
+      --green-dark: #153b2a;
+      --lime: #d7ed83;
+      --paper: #f5f4ed;
+      --white: #fff;
+      --line: #e3e5dc;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    }
+
+    /*
+      Grundregeln für die ganze Seite:
+      - border-box rechnet Innenabstand und Rahmen in die Elementbreite ein.
+      - Der Browser-Standardrand wird entfernt und die Grundschrift festgelegt.
+      - .wrap begrenzt die Textbreite und zentriert den Inhalt.
+    */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--sans);
+      line-height: 1.65;
+    }
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+
+    /*
+      Navigation im Titelbild:
+      .topbar wird absolut oben auf das Bild gelegt. Die hohe z-index-Zahl
+      sorgt dafür, dass sie vor dem Hintergrundbild sichtbar bleibt.
+    */
+    .topbar {
+      position: absolute;
+      z-index: 2;
+      inset: 0 0 auto;
+      color: var(--white);
+      border-bottom: 1px solid rgb(255 255 255 / 22%);
+    }
+    /* Flexbox ordnet Logo und Navigationslinks in einer Zeile an. */
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    /* Das Logo besteht aus dem runden III-Zeichen und dem danebenstehenden Text. */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    /* Kreisförmige Plakette mit den drei römischen Ziffern. */
+    .brand-mark {
+      display: grid;
+      width: 38px;
+      aspect-ratio: 1;
+      place-items: center;
+      border: 1px solid rgb(255 255 255 / 64%);
+      border-radius: 50%;
+      color: var(--lime);
+      font: 700 1rem var(--serif);
+      letter-spacing: 0;
+    }
+    /* Links in der Navigation liegen mit gleichmäßigem Abstand nebeneinander. */
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-size: .88rem;
+      text-decoration: none;
+      color: rgb(255 255 255 / 86%);
+    }
+    /* Beim Darüberfahren mit der Maus wird der Link in Limettengrün hervorgehoben. */
+    .nav-links a:hover { color: var(--lime); }
+
+    /*
+      Titelbereich (Hero):
+      Er nimmt mindestens 690 Pixel Höhe ein und zentriert seinen Inhalt.
+      Auf kleineren Bildschirmen wird die Mindesthöhe weiter unten angepasst.
+    */
+    .hero {
+      position: relative;
+      display: flex;
+      min-height: 690px;
+      align-items: center;
+      overflow: hidden;
+      color: var(--white);
+      background: #1b2c24;
+    }
+    /*
+      ::before erzeugt eine dekorative Ebene hinter dem Titel, ohne ein
+      zusätzliches HTML-Element zu benötigen. Die Farbverläufe liegen über
+      dem Foto und dunkeln es ab, damit der Text gut lesbar bleibt.
+    */
+    .hero::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background:
+        linear-gradient(90deg, rgb(13 27 20 / 88%) 0%, rgb(13 27 20 / 67%) 43%, rgb(13 27 20 / 12%) 100%),
+        linear-gradient(0deg, rgb(13 27 20 / 45%), transparent 50%),
+        url("https://upload.wikimedia.org/wikipedia/commons/0/0a/1994_Volkswagen_Golf_1.8_Driver_%2818933940398%29.jpg") center 55% / cover;
+      transform: scale(1.015);
+    }
+    /* Der Text liegt mit z-index vor dem Pseudo-Element mit dem Foto. */
+    .hero-content { position: relative; z-index: 1; padding-block: 145px 90px; }
+    /* Kleine Überschrift über dem Haupttitel; die Linie wird mit ::before gezeichnet. */
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 20px;
+      color: var(--lime);
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { width: 28px; height: 1px; content: ""; background: currentColor; }
+    /* Entfernt den oberen Standardabstand von Überschriften und Textabsätzen. */
+    h1, h2, h3, p { margin-top: 0; }
+    /* clamp() verkleinert und vergrößert den Haupttitel passend zur Bildschirmbreite. */
+    h1 {
+      max-width: 720px;
+      margin-bottom: 20px;
+      font: 400 clamp(3.2rem, 8vw, 6.7rem)/.98 var(--serif);
+      letter-spacing: -.055em;
+    }
+    /* Das Wort „Golf.“ wird in eine eigene Zeile gesetzt und farblich betont. */
+    h1 span { display: block; color: var(--lime); font-style: italic; }
+    /* Begrenzte Textbreite hält die Einleitung lesbar. */
+    .hero-copy { max-width: 520px; margin-bottom: 30px; color: rgb(255 255 255 / 82%); font-size: 1.08rem; }
+    /* Der Link ist als umrandeter Button gestaltet und führt zur Geschichte. */
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 18px;
+      border: 1px solid rgb(255 255 255 / 50%);
+      border-radius: 3px;
+      color: var(--white);
+      font-size: .88rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s, color .2s;
+    }
+    /* Im Hover-Zustand wechselt der Button auf einen hellen Hintergrund. */
+    .hero-link:hover { color: var(--green-dark); background: var(--lime); border-color: var(--lime); }
+    .hero-link span { font-size: 1.2rem; }
+    /* Bildnachweis sitzt unten rechts über dem Foto. */
+    .hero-note {
+      position: absolute;
+      right: max(24px, calc((100vw - 1120px) / 2));
+      bottom: 25px;
+      z-index: 1;
+      color: rgb(255 255 255 / 78%);
+      font-size: .72rem;
+    }
+    .hero-note a { text-decoration-color: rgb(255 255 255 / 50%); }
+
+    /*
+      Faktenleiste:
+      CSS Grid erstellt vier gleich breite Spalten. Jede .fact ist ein einzelner
+      Fakt; die feinen linken Rahmen trennen die Einträge voneinander.
+    */
+    .facts-band { background: var(--green-dark); color: var(--white); }
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding-block: 27px;
+    }
+    .fact { padding: 0 22px; border-left: 1px solid rgb(255 255 255 / 22%); }
+    .fact:first-child { padding-left: 0; border-left: 0; }
+    .fact strong { display: block; color: var(--lime); font: 400 1.55rem var(--serif); }
+    .fact span { color: rgb(255 255 255 / 73%); font-size: .77rem; }
+    /* Gibt den Sprungzielen beim Scrollen etwas Abstand zum oberen Fensterrand. */
+    section { scroll-margin-top: 30px; }
+
+    /*
+      Geschichte:
+      Die Überschrift und der Text erhalten am großen Bildschirm zwei Spalten.
+      Die Zeitleiste verwendet eine schmale Jahresspalte und eine breite Textspalte.
+    */
+    .intro { padding-block: 100px 82px; }
+    .intro-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; align-items: start; }
+    /* Einheitliches Aussehen für die kleinen Abschnittsüberschriften. */
+    .section-label {
+      margin: 8px 0 16px;
+      color: var(--green);
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    /* Alle Abschnittsüberschriften verwenden dieselbe Schrift und skalieren mit dem Fenster. */
+    h2 { margin-bottom: 18px; font: 400 clamp(2.2rem, 4vw, 3.5rem)/1.08 var(--serif); letter-spacing: -.035em; }
+    .intro-copy { color: var(--muted); font-size: 1.05rem; }
+    .intro-copy p:last-child { margin-bottom: 0; }
+    /* Datum und Ereignis werden in der Zeitleiste nebeneinander ausgerichtet. */
+    .timeline {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 22px;
+      margin-top: 30px;
+      padding-top: 23px;
+      border-top: 1px solid var(--line);
+    }
+    .timeline strong { color: var(--green); font: 400 1.55rem var(--serif); }
+    .timeline p { margin: 0; color: var(--muted); font-size: .93rem; }
+
+    /*
+      Modellübersicht:
+      Der leicht abgesetzte Hintergrund markiert den Bereich. Drei Grid-Spalten
+      zeigen die Modellkarten nebeneinander; jede Karte fasst eine Modellgruppe zusammen.
+    */
+    .models { padding-block: 82px 100px; background: #ebece3; }
+    .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 35px; }
+    .section-heading h2 { max-width: 570px; margin-bottom: 0; }
+    .section-heading > p { max-width: 340px; margin: 0 0 4px; color: var(--muted); font-size: .93rem; }
+    .model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .model-card {
+      min-height: 260px;
+      padding: 28px;
+      border: 1px solid #dfe1d7;
+      background: rgb(255 255 255 / 65%);
+    }
+    .model-number { color: #8d9b8e; font: 400 1rem var(--serif); }
+    .model-card h3 { margin: 28px 0 10px; font: 400 1.8rem var(--serif); }
+    .model-card p { margin-bottom: 0; color: var(--muted); font-size: .92rem; }
+    .model-tag { display: inline-block; margin-top: 19px; padding: 5px 9px; background: #e6edd5; color: var(--green); font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+
+    /*
+      Besonderheiten:
+      Bild und erklärender Text stehen in zwei gleich breiten Spalten.
+      aspect-ratio hält den Bildausschnitt gleichmäßig; object-fit schneidet
+      das Foto passend zu, ohne es zu verzerren.
+    */
+    .story { padding-block: 100px; }
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+    .story-image { margin: 0; }
+    .story-image img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+    figcaption { margin-top: 9px; color: var(--muted); font-size: .72rem; }
+    figcaption a { text-underline-offset: 3px; }
+    .story-copy p:not(.section-label) { color: var(--muted); }
+    .story-copy ul { display: grid; gap: 12px; margin: 25px 0 0; padding: 0; list-style: none; }
+    /* Eigene Listeneinträge ohne Standard-Aufzählungspunkt; der Pfeil kommt aus ::before. */
+    .story-copy li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: .92rem; }
+    .story-copy li::before { content: "↗"; color: var(--green); font-weight: 800; }
+
+    /*
+      Abschluss und Fußzeile:
+      Der dunkle Hintergrund schließt den Inhalt ab. Zitat und Text stehen
+      am großen Bildschirm in Spalten und werden mobil untereinander angeordnet.
+    */
+    .legacy { padding-block: 80px; background: var(--green-dark); color: var(--white); }
+    .legacy-inner { display: grid; grid-template-columns: 1fr .8fr; gap: 80px; align-items: center; }
+    .legacy h2 { max-width: 600px; }
+    .legacy p:not(.section-label) { max-width: 570px; color: rgb(255 255 255 / 73%); }
+    .legacy .section-label { color: var(--lime); }
+    .legacy-quote { padding-left: 25px; border-left: 1px solid rgb(215 237 131 / 65%); color: var(--lime); font: italic 1.45rem/1.45 var(--serif); }
+    footer { padding-block: 26px; color: var(--muted); font-size: .76rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+    .footer-inner p { margin: 0; }
+
+    /*
+      Tablet und Smartphone (bis 760 Pixel):
+      Mehrspaltige Inhalte wechseln in eine Spalte, damit Text und Karten
+      bei schmalem Bildschirm nicht zusammengedrückt werden.
+    */
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 36px, 560px); }
+      .nav { min-height: 70px; }
+      .nav-links { gap: 14px; }
+      .nav-links a { font-size: .76rem; }
+      .hero { min-height: 650px; }
+      .hero::before {
+        background:
+          linear-gradient(90deg, rgb(13 27 20 / 84%), rgb(13 27 20 / 38%)),
+          linear-gradient(0deg, rgb(13 27 20 / 55%), transparent 55%),
+          url("https://upload.wikimedia.org/wikipedia/commons/0/0a/1994_Volkswagen_Golf_1.8_Driver_%2818933940398%29.jpg") 58% center / cover;
+      }
+      .hero-content { padding-block: 140px 100px; }
+      .hero-note { left: 18px; right: 18px; font-size: .65rem; }
+      .facts { grid-template-columns: repeat(2, 1fr); gap: 22px 0; }
+      .fact:nth-child(3) { padding-left: 0; border-left: 0; }
+      .intro, .story { padding-block: 72px; }
+      .intro-grid, .story-grid, .legacy-inner { grid-template-columns: 1fr; gap: 30px; }
+      .section-heading { display: block; }
+      .section-heading > p { margin-top: 16px; }
+      .model-grid { grid-template-columns: 1fr; }
+      .model-card { min-height: 0; }
+      .model-card h3 { margin-top: 20px; }
+      .legacy { padding-block: 68px; }
+      .legacy-inner { gap: 15px; }
+    }
+
+    /*
+      Kleine Smartphones (bis 430 Pixel):
+      Navigation, Fakten und Abstände werden weiter verkleinert, damit
+      nichts über den rechten Bildschirmrand hinausragt.
+    */
+    @media (max-width: 430px) {
+      .brand { gap: 8px; font-size: .68rem; }
+      .brand-mark { width: 32px; }
+      .nav-links { gap: 10px; }
+      .nav-links a { font-size: .69rem; }
+      .hero { min-height: 610px; }
+      .hero-copy { font-size: .98rem; }
+      .fact { padding-inline: 14px; }
+      .fact strong { font-size: 1.35rem; }
+      .timeline { grid-template-columns: 70px 1fr; gap: 15px; }
+      .footer-inner { flex-direction: column; gap: 8px; }
+    }
+
+    /*
+      Barrierefreiheit: Wenn das Gerät reduzierte Bewegung vorgibt, werden
+      weiches Scrollen und Übergangsanimationen praktisch ausgeschaltet.
+    */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    HEADER / TITELBEREICH
+    Die Navigationslinks springen über ihre href-IDs zu den passenden Abschnitten.
+    Das Titelbild selbst wird weiter oben im CSS als Hintergrund gesetzt.
+  -->
+  <header class="hero" id="start">
+    <div class="topbar">
+      <nav class="nav wrap" aria-label="Hauptnavigation">
+        <!-- Klick auf das Logo bringt die Seite wieder an den Anfang (#start). -->
+        <a class="brand" href="#start">
+          <span class="brand-mark" aria-hidden="true">III</span>
+          <span>Golf · Generation 3</span>
+        </a>
+        <!-- Diese Ziele müssen mit den IDs weiter unten auf der Seite übereinstimmen. -->
+        <div class="nav-links">
+          <a href="#geschichte">Geschichte</a>
+          <a href="#modelle">Modelle</a>
+          <a href="#besonderheiten">Besonderheiten</a>
+        </div>
+      </nav>
+    </div>
+    <!-- Hauptüberschrift, kurzer Einführungstext und Sprunglink zur Geschichte. -->
+    <div class="hero-content wrap">
+      <p class="eyebrow">Der Klassiker von 1991</p>
+      <h1>Mehr als ein <span>Golf.</span></h1>
+      <p class="hero-copy">Der Golf III brachte frischen Wind in eine Erfolgsreihe: mit runderen Formen, neuen Sicherheitsideen und einer Modellvielfalt, die bis heute begeistert.</p>
+      <a class="hero-link" href="#geschichte">Die Geschichte entdecken <span aria-hidden="true">↓</span></a>
+    </div>
+    <!-- Quellen- und Lizenznachweis für das Hintergrundfoto. -->
+    <div class="hero-note">Foto: Kieran White · <a href="https://commons.wikimedia.org/wiki/File:1994_Volkswagen_Golf_1.8_Driver_(18933940398).jpg" target="_blank" rel="noreferrer">CC BY 2.0</a></div>
+  </header>
+
+  <!-- main enthält den inhaltlichen Hauptteil der Webseite. -->
+  <main>
+    <!--
+      ÜBERBLICK
+      Vier kurze Fakten. Die Klassen .facts und .fact steuern ihre Darstellung
+      im CSS; auf schmalen Displays werden daraus zwei Spalten.
+    -->
+    <div class="facts-band" aria-label="Golf III auf einen Blick">
+      <div class="facts wrap">
+        <div class="fact"><strong>1991–1997</strong><span>Bauzeit der Limousine</span></div>
+        <div class="fact"><strong>3. Generation</strong><span>des Volkswagen Golf</span></div>
+        <div class="fact"><strong>1992</strong><span>Europäisches Auto des Jahres</span></div>
+        <div class="fact"><strong>Viele Gesichter</strong><span>vom Variant bis zum Cabrio</span></div>
+      </div>
+    </div>
+
+    <!--
+      GESCHICHTE
+      Die id="geschichte" ist das Sprungziel des Navigationslinks „Geschichte“.
+      Die Jahreszahlen bilden eine einfache Zeitleiste.
+    -->
+    <section class="intro wrap" id="geschichte">
+      <div class="intro-grid">
+        <div>
+          <p class="section-label">Ein neues Kapitel</p>
+          <h2>Der Golf wurde erwachsen.</h2>
+        </div>
+        <div class="intro-copy">
+          <p>Als der Golf III 1991 den Golf II ablöste, setzte Volkswagen auf ein deutlich rundlicheres Design und einen hochwertiger wirkenden Innenraum. Die dritte Generation blieb dem praktischen Kompaktwagen treu, entwickelte das Konzept aber in fast jeder Hinsicht weiter.</p>
+          <p>Ein wichtiger Schritt war die Sicherheit: Der Golf III war der erste Golf, für den Frontairbags angeboten wurden. Dazu kamen unter anderem ein verbesserter Seitenaufprallschutz und ABS – Ausstattungen, die in den frühen 1990er-Jahren noch längst nicht selbstverständlich waren.</p>
+          <div class="timeline">
+            <strong>1991</strong>
+            <p>Marktstart als Drei- und Fünftürer. Kurz darauf folgten weitere Karosserie- und Ausstattungsvarianten.</p>
+          </div>
+          <div class="timeline">
+            <strong>1993</strong>
+            <p>Der Golf Variant erweitert die Familie um einen geräumigen Kombi; auch das Cabriolet kommt auf den Markt.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      MODELLE
+      Jede article-Karte enthält eine Modellgruppe. article eignet sich für
+      Inhalte, die auch für sich allein verständlich sind.
+    -->
+    <section class="models" id="modelle">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Für jeden etwas</p>
+            <h2>Eine Golf-Familie mit Charakter.</h2>
+          </div>
+          <p>Vom sparsamen Alltagsauto bis zum sportlichen Sechszylinder: Die Auswahl machte den Golf III besonders vielseitig.</p>
+        </div>
+        <div class="model-grid">
+          <article class="model-card">
+            <span class="model-number">01 / Alltag</span>
+            <h3>CL, GL &amp; GT</h3>
+            <p>Die klassischen Ausstattungen boten eine breite Auswahl an Benzin- und Dieselmotoren – passend für Stadt, Pendelstrecke und Familie.</p>
+            <span class="model-tag">Der Allrounder</span>
+          </article>
+          <article class="model-card">
+            <span class="model-number">02 / Sport</span>
+            <h3>GTI &amp; VR6</h3>
+            <p>Der GTI führte die sportliche Tradition fort. Der VR6 setzte mit seinem kompakten Sechszylinder und kräftigem Klang noch eins drauf.</p>
+            <span class="model-tag">Die Ikonen</span>
+          </article>
+          <article class="model-card">
+            <span class="model-number">03 / Familie</span>
+            <h3>Variant &amp; Cabrio</h3>
+            <p>Mehr Platz im Kombi oder offen unterwegs: Die Golf-Baureihe gab es auch als Variant und als eigenständiges Cabriolet.</p>
+            <span class="model-tag">Die Vielseitigen</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      BESONDERHEITEN
+      figure gruppiert das Foto mit seiner Bildunterschrift. alt beschreibt das
+      Bild für Screenreader; loading="lazy" lädt es erst bei Bedarf weiter unten.
+    -->
+    <section class="story wrap" id="besonderheiten">
+      <div class="story-grid">
+        <figure class="story-image">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Golf_III_at_Spa-Francorchamps%2C_2023.jpg"
+            alt="Ein Renn-Golf III auf der Rennstrecke Spa-Francorchamps"
+            loading="lazy"
+            width="1200"
+            height="712">
+          <!-- Bildquelle und Lizenz sind direkt beim verwendeten Foto angegeben. -->
+          <figcaption>Golf III beim Belcar Historic Cup in Spa-Francorchamps. Foto: SunflowerYuri · <a href="https://commons.wikimedia.org/wiki/File:Golf_III_at_Spa-Francorchamps,_2023.jpg" target="_blank" rel="noreferrer">CC BY-SA 4.0</a></figcaption>
+        </figure>
+        <div class="story-copy">
+          <p class="section-label">Was ihn auszeichnet</p>
+          <h2>Technik, die Geschichte schrieb.</h2>
+          <p>Der Golf III war nicht nur ein vertrauter Begleiter im Alltag. Er zeigte auch, wie breit ein Kompaktwagen aufgestellt sein kann – von effizienter Langstrecke bis zum Motorsport.</p>
+          <ul>
+            <li><span><strong>Diesel-Pionier:</strong> Mit dem TDI hielt die direkteinspritzende Turbodiesel-Technik Einzug in die Golf-Reihe.</span></li>
+            <li><span><strong>Mehr Sicherheit:</strong> Airbags, ABS und verstärkte Karosseriestrukturen prägten die Generation.</span></li>
+            <li><span><strong>Rallye-Erfolge:</strong> Der Golf III Kit Car und später der Golf IV Kit Car holten Titel im Rallyesport.</span></li>
+            <li><span><strong>Ein echter Klassiker:</strong> Seine unkomplizierte Art und große Teileauswahl machen ihn bis heute beliebt.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABSCHLUSS: Zusammenfassung und gestalterisch hervorgehobenes Zitat. -->
+    <section class="legacy">
+      <div class="legacy-inner wrap">
+        <div>
+          <p class="section-label">Das bleibt</p>
+          <h2>Ein Stück Alltagsgeschichte.</h2>
+          <p>Ob als erster eigener Wagen, Familienauto oder sorgfältig gepflegter Youngtimer: Der Golf III ist für viele mehr als ein Modellname. Er steht für eine Zeit, in der der Kompaktwagen komfortabler, sicherer und vielseitiger wurde.</p>
+        </div>
+        <div class="legacy-quote">„Unaufgeregt im Alltag. Unvergesslich für Generationen.“</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER: Fußzeile mit kurzer Beschreibung und allgemeinem Bildquellenhinweis. -->
+  <footer>
+    <div class="footer-inner wrap">
+      <p>Eine kleine Hommage an den Volkswagen Golf III.</p>
+      <p>Fotos: Wikimedia Commons · Lizenzangaben stehen direkt bei den Bildern.</p>
+    </div>
+  </footer>
+</body>
+</html>
